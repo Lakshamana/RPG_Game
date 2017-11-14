@@ -27,9 +27,11 @@ public abstract class Personagem {
             this.life = 150;
         if(this.life <= 50 && this.life > 0)
             state = "ferido";
+        else if(this.life == 0)
+            this.state = "morto";  
+        else 
+            this.state = "bem";
         this.nivel = 1;
-        if(this.life == 0)
-            this.state = "morto";    
         for(Integer i : u)
             if(this.getXp() == u[i])
                     this.setLevel(i + 1);
