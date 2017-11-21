@@ -1,20 +1,16 @@
 package rpg.personagens;
 
+import rpg.item.Arma;
+
 
 public class Player extends Personagem {
-    public Player(int life, int xp, int dam, String name,
-            int dex, int money, String state, int nivel){
-        super(life, xp, dam, name, dex, money, state, nivel);
+    public Player(int xp, String name, Arma a){
+        super(name, xp, a);
     }
     
     @Override
     void atacar(Personagem target){
-        
-    }
-    
-    @Override
-    void defender(Personagem fromEnemy){
-        
+        this.getArma().ferir(target, this.getDam(), this.getXp());
     }
 
     void initPlayer(){

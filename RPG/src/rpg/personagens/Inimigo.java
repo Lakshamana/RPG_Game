@@ -1,18 +1,23 @@
 package rpg.personagens;
 
+import rpg.item.Arma;
+
 public class Inimigo extends Personagem{
-    public Inimigo(int life, int xp, int dam, String name,
-            int dex, int money, String state, int nivel){
-        super(life, xp, dam, name, dex, money, state, nivel);
+    public Inimigo(String name, int xp, Arma a){
+        super(name, xp, a);
+    }
+    
+    public Inimigo(String name, int xp, Arma a, int nivel){
+        super(name, xp, a);
+        super.setLevel(nivel);
     }
     
     @Override
     void atacar(Personagem target){
-        target.life -= 0.1 * this.xp + this.dam;
+        target.setLife((int)(target.getLife() - 0.1 * this.getXp() + this.getDam()));
     }
     
-    @Override
-    void defender(Personagem fromPlayer){
-        this.life += 0.1 * this.dex + xp;
+    void initInimigo(){
+        super.initPersonagem();
     }
 }
