@@ -9,8 +9,14 @@ public class Player extends Personagem {
     }
     
     @Override
-    void atacar(Personagem target){
+    protected void atacar(Personagem target){
         this.getArma().ferir(target, this.getDam(), this.getXp());
+        super.atacar(target);
+    }
+    
+    @Override
+    protected void defender(Personagem from){
+        super.defender(from);
     }
 
     void initPlayer(){

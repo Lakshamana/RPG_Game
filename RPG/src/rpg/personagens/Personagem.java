@@ -2,30 +2,38 @@ package rpg.personagens;
 
 import rpg.item.Mochila;
 import rpg.item.Arma;
+import rpg.item.Item;
 
 public abstract class Personagem {
     private int life, xp, dam, dex, money;
-    private String state, name;
+    private String state;
+    @SuppressWarnings("FieldMayBeFinal")
+    private String name;
+    private int def;
     private int nivel;
-    private Arma a;
-    private Mochila moc;
+    private boolean canAtk, canDef;
+    private Arma arma;
+    private final Mochila moc;
     
-    /* Lista de números de xp que o usuário de atingir
-    para passar de fase. */
-    private final static int[] u = {10, 20, 30, 50, 80, 130}; 
-    public Personagem(String name, int xp, Arma a){
+    public Personagem(String name, int xp, Arma arma){
         this.life = 150;
         this.xp = xp;
-        this.dam = (int)( 10 * xp + 0.5 * (1 + life));
+        this.dam = this.def = (int)(10 * xp + 0.5 * (1 + life));
         this.name = name;
         this.money = 2000;
-        this.a = a;
+        this.arma = arma;
         this.moc = new Mochila(10);
     }
     
-    abstract void atacar(Personagem target);
+    protected void atacar(Personagem target){
+        def++;
+        dam--;
+    }
+    
     protected void defender(Personagem from){
-        this.setLife((int)(this.getLife() + 0.1 * from.xp + from.dam));
+        this.setLife((int)(this.getLife() + 0.1 * from.getXp() + from.getDam()));
+        def--;
+        dam++;
     }
     
     public void initPersonagem(){
@@ -38,11 +46,53 @@ public abstract class Personagem {
             this.state = "morto";
         else
             this.state = "vivo";
-        for(Integer i : u)
-            if(this.getXp() == u[i])
-                    this.setLevel(i + 1);
+        boolean a = (dam < 5);
+        boolean b = (def < 5);
+        if(a)
+            setCanAtk(false);
+        if(b)
+            setCanDef(false);
+        else if(!(a || b)){
+            setCanAtk(true);
+            setCanDef(true);
+        }
     }
     
+    public boolean vender(Vendedor v, Item item){
+        if(getMoc().exists(item) && v.receber(this, item)){
+             money += item.getCost();
+             return true;
+        }
+        return false;
+    }
+    
+    public boolean comprar(Vendedor v, Item item){
+        if(item.getCost() <= money && v.getBol().exists(item)
+                && v.repassar(item)){
+            money -= item.getCost();
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean getCanAtk() {
+        return canAtk;
+    }
+    public void setCanAtk(boolean canAtk) {
+        this.canAtk = canAtk;
+    }
+    public boolean getCanDef() {
+        return canDef;
+    }
+    public void setCanDef(boolean canDef) {
+        this.canDef = canDef;
+    }
+    public int getDef() {
+        return def;
+    }
+    public void setDef(int def) {
+        this.def = def;
+    }
     public String getState(){
         return this.state;
     }
@@ -86,10 +136,12 @@ public abstract class Personagem {
         this.money = money;
     }
     public Arma getArma() {
-        return a;
+        return arma;
     }
-    public void setArma(Arma a) {
-        this.a = a;
+    public void setArma(Arma arma) {
+        this.arma = arma;
     }
-    
+    public Mochila getMoc() {
+        return moc;
+    }
 }

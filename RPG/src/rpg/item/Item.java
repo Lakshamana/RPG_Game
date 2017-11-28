@@ -1,5 +1,6 @@
 package rpg.item;
 
+import java.util.ArrayList;
 import rpg.personagens.Personagem;
 
 public abstract class Item {
@@ -7,10 +8,9 @@ public abstract class Item {
     protected String name;
     protected Personagem p;
     
-    public Item(Personagem p, String name, int cost){
+    public Item(String name, int cost){
         this.cost = cost;
         this.name = name;
-        this.p = p;
     }
     
     public void setCost(int cost){

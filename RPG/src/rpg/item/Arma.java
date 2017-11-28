@@ -5,8 +5,8 @@ import rpg.personagens.Personagem;
 public abstract class Arma extends Item {
     private int dam, xp;
 
-    public Arma(Personagem p, String name, int cost){
-        super(p, name, cost);
+    public Arma(String name, int cost){
+        super(name, cost);
     }
     public abstract void ferir(Personagem target, int dam, int xp);
     

@@ -6,7 +6,7 @@ public class ArmaFogo extends Arma implements Fogo {
     int bullets;
 
     public ArmaFogo(Personagem p, String name, int cost, int bullets) {
-        super(p, name, cost);
+        super(name, cost);
         this.bullets = bullets;
     }
     @Override

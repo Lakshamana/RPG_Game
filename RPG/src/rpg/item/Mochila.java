@@ -14,16 +14,25 @@ public class Mochila {
     }
     
     public boolean add(Item e){
-        if(q > max){
+        if(q <= max){
             itens.add(e);
             q++;
             return true;
         }
+        System.out.println("A bolsa já está cheia!");
         return false;
     }
+    
+    public boolean exists(Item e){
+        for(Item i : this.itens)
+            if(i.equals(e))
+                return true;
+        return false;
+    }
+    
     public boolean rmv(int i){
-        if(q < 0){
-            System.out.print("Mochila já está vazia");
+        if(q < 0 && exists(itens.get(i))){
+            System.out.println("A sua bolsa já está vazia!");
             return false;
         }
         itens.remove(i);
